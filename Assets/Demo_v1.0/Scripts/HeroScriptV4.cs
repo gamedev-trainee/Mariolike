@@ -95,7 +95,7 @@ namespace Mariolike.Demo.V1
                     for (int i = 0; i < count; i++)
                     {
                         if (hits[i].collider.gameObject == gameObject) continue;
-                        if (hits[i].point.y > pos.y + stepOffset)
+                        if (hits[i].point.y > nextPos.y + stepOffset)
                         {
                             nextPos.x = hits[i].point.x - radius * m_lookDir;
                             offset.x = nextPos.x - pos.x;
