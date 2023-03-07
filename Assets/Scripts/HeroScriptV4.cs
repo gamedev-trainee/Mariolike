@@ -1,27 +1,26 @@
 ﻿using UnityEngine;
 
-namespace Mariolike.Demo.V1
+namespace Mariolike
 {
-    public class MonsterScript : MonoBehaviour
+    public class HeroScriptV4 : MonoBehaviour
     {
         public float moveSpeed = 0f;
+        public float jumpStartSpeed = 0f;
         public float gravity = 0f;
         public float radius = 0f;
         public float height = 0f;
         public float footRadius = 0f;
         public float stepOffset = 0f;
-        public int startMoveDir = 0;
 
         private int m_lastMoveDir = 0;
         private int m_moveDir = 0;
         private int m_lookDir = 0;
 
-        private bool m_dead = false;
+        private int m_jumpDir = 0;
+        private float m_jumpSpeed = 0f;
 
-        void Start()
-        {
-            m_moveDir = startMoveDir;
-        }
+        private bool m_jumpFalling = false;
+        private bool m_dead = false;
 
         void Update()
         {
@@ -47,10 +46,18 @@ namespace Mariolike.Demo.V1
                 offset.x += moveSpeed * m_moveDir * Time.deltaTime;
             }
 
+            if (m_jumpDir != 0)
+            {
+                offset.y += m_jumpSpeed * m_jumpDir * Time.deltaTime;
+                m_jumpSpeed -= gravity * Time.deltaTime;
+            }
+
             offset.y -= gravity * Time.deltaTime;
 
             Vector3 nextPos = pos + offset;
             RaycastHit hit;
+
+            m_jumpFalling = m_jumpDir == 1 && offset.y < 0f;
 
             if (offset.y < 0f)
             {
@@ -63,10 +70,14 @@ namespace Mariolike.Demo.V1
                         {
                             nextPos.y = hit.point.y;
                             offset.y = nextPos.y - pos.y;
+                            m_jumpDir = 0;
                         }
                         else
                         {
-                            offset.y = 0;
+                            if (m_jumpDir == 0)
+                            {
+                                offset.y = 0f;
+                            }
                         }
                     }
                 }
@@ -84,13 +95,10 @@ namespace Mariolike.Demo.V1
                     for (int i = 0; i < count; i++)
                     {
                         if (hits[i].collider.gameObject == gameObject) continue;
-                        if (hits[i].point.y > pos.y + stepOffset)
+                        if (hits[i].point.y > nextPos.y + stepOffset)
                         {
                             nextPos.x = hits[i].point.x - radius * m_lookDir;
                             offset.x = nextPos.x - pos.x;
-                            m_lastMoveDir = m_moveDir;
-                            m_moveDir = -m_moveDir;
-                            m_lookDir = m_moveDir;
                             break;
                         }
                     }
@@ -111,25 +119,56 @@ namespace Mariolike.Demo.V1
                 return;
             }
 
-            Vector3 pos = transform.position;
-            Collider[] colliders = Physics.OverlapBox(pos + new Vector3(0f, height * 0.5f), new Vector3(radius, height * 0.25f, radius), Quaternion.identity, 1 << (int)GameObjectLayers.Hero);
-            if (colliders != null && colliders.Length > 0)
+            if (m_jumpFalling)
             {
-                HeroScriptV4 heroScript;
-                int count = colliders.Length;
-                for (int i = 0; i < count; i++)
+                Vector3 pos = transform.position;
+                Collider[] colliders = Physics.OverlapBox(pos, new Vector3(radius, height * 0.2f, radius), Quaternion.identity, 1 << (int)GameObjectLayers.Monster);
+                if (colliders != null && colliders.Length > 0)
                 {
-                    heroScript = colliders[i].GetComponent<HeroScriptV4>();
-                    if (heroScript == null) continue;
-                    if (!heroScript.isJumping()) continue;
-                    heroScript.kill();
+                    MonsterScript monsterScript;
+                    int count = colliders.Length;
+                    for (int i = 0; i < count; i++)
+                    {
+                        monsterScript = colliders[i].GetComponent<MonsterScript>();
+                        if (monsterScript == null) continue;
+                        monsterScript.kill();
+                    }
                 }
             }
+        }
+
+        public bool isJumping()
+        {
+            return m_jumpDir == 0;
         }
 
         public void kill()
         {
             m_dead = true;
+        }
+
+        void OnGUI()
+        {
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                m_moveDir = -1;
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                m_moveDir = 1;
+            }
+            else
+            {
+                m_moveDir = 0;
+            }
+            if (m_jumpDir == 0)
+            {
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    m_jumpDir = 1;
+                    m_jumpSpeed = jumpStartSpeed;
+                }
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Mariolike.Demo.V1
+﻿namespace Mariolike
 {
     public enum GameObjectLayers
     {

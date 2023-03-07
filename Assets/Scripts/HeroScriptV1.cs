@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Mariolike.Demo.V1
+namespace Mariolike
 {
     public class HeroScriptV1 : MonoBehaviour
     {

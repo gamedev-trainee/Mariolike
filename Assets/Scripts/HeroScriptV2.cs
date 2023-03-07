@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Mariolike.Demo.V1
+namespace Mariolike
 {
-    public class HeroScriptV3 : MonoBehaviour
+    public class HeroScriptV2 : MonoBehaviour
     {
         public float moveSpeed = 0f;
         public float jumpStartSpeed = 0f;
@@ -51,7 +51,19 @@ namespace Mariolike.Demo.V1
             if (offset.y < 0f)
             {
                 float checkHeight = height * 0.5f - offset.y;
-                if (Physics.BoxCast(pos + new Vector3(0f, height, 0f), new Vector3(footRadius, height * 0.5f, footRadius), Vector3.down, out hit, Quaternion.identity, checkHeight))
+                if (Physics.Raycast(nextPos + new Vector3(footRadius * m_lookDir, checkHeight, 0f), Vector3.down, out hit, checkHeight))
+                {
+                    if (hit.collider.gameObject != gameObject)
+                    {
+                        if (hit.point.y <= pos.y + stepOffset)
+                        {
+                            nextPos.y = hit.point.y;
+                            offset.y = nextPos.y - pos.y;
+                            m_jumpDir = 0;
+                        }
+                    }
+                }
+                else if (Physics.Raycast(nextPos + new Vector3(-footRadius * m_lookDir, checkHeight, 0f), Vector3.down, out hit, checkHeight))
                 {
                     if (hit.collider.gameObject != gameObject)
                     {
@@ -68,19 +80,28 @@ namespace Mariolike.Demo.V1
             if (offset.sqrMagnitude > 0)
             {
                 float checkDistance = offset.x * m_lookDir + radius;
-                RaycastHit[] hits = Physics.BoxCastAll(pos + new Vector3(-radius * m_lookDir, height * 0.5f, 0f), new Vector3(radius, height * 0.5f, radius), new Vector3(m_lookDir, 0f, 0f), Quaternion.identity, checkDistance);
-                if (hits != null && hits.Length > 0)
+                if (Physics.Raycast(new Vector3(pos.x, nextPos.y, pos.z) + new Vector3(0f, height, 0f), new Vector3(m_lookDir, 0f, 0f), out hit, checkDistance))
                 {
-                    int count = hits.Length;
-                    for (int i = 0; i < count; i++)
+                    if (hit.collider.gameObject != gameObject)
                     {
-                        if (hits[i].collider.gameObject == gameObject) continue;
-                        if (hits[i].point.y > nextPos.y + stepOffset)
-                        {
-                            nextPos.x = hits[i].point.x - radius * m_lookDir;
-                            offset.x = nextPos.x - pos.x;
-                            break;
-                        }
+                        nextPos.x = hit.point.x - radius * m_lookDir;
+                        offset.x = nextPos.x - pos.x;
+                    }
+                }
+                else if (Physics.Raycast(new Vector3(pos.x, nextPos.y, pos.z) + new Vector3(0f, height * 0.5f, 0f), new Vector3(m_lookDir, 0f, 0f), out hit, checkDistance))
+                {
+                    if (hit.collider.gameObject != gameObject)
+                    {
+                        nextPos.x = hit.point.x - radius * m_lookDir;
+                        offset.x = nextPos.x - pos.x;
+                    }
+                }
+                else if (Physics.Raycast(new Vector3(pos.x, nextPos.y, pos.z) + new Vector3(0f, stepOffset, 0f), new Vector3(m_lookDir, 0f, 0f), out hit, checkDistance))
+                {
+                    if (hit.collider.gameObject != gameObject)
+                    {
+                        nextPos.x = hit.point.x - radius * m_lookDir;
+                        offset.x = nextPos.x - pos.x;
                     }
                 }
             }
