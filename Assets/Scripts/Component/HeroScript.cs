@@ -44,11 +44,6 @@ namespace Mariolike
             }
         }
 
-        public bool isJumping()
-        {
-            return m_jumpModule.isJumping();
-        }
-
         void OnGUI()
         {
             if (Input.GetKey(KeyCode.LeftArrow))
