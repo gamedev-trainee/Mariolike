@@ -41,7 +41,7 @@ namespace Mariolike
             {
                 float checkDistance = offset.x * forward + m_radius;
                 Vector3 pointBottom = pos + new Vector3(0f, m_radius, 0f) + new Vector3(-forward * m_radius, 0f, 0f);
-                Vector3 pointTop = pos + new Vector3(0f, m_radius + m_height, 0f) + new Vector3(-forward * m_radius, 0f, 0f);
+                Vector3 pointTop = pos + new Vector3(0f, m_height - m_radius, 0f) + new Vector3(-forward * m_radius, 0f, 0f);
                 RaycastHit[] hits = Physics.CapsuleCastAll(pointBottom, pointTop, m_radius, new Vector3(forward, 0f, 0f), checkDistance, m_layerMask);
                 if (hits != null && hits.Length > 0)
                 {
