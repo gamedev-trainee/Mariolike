@@ -49,6 +49,8 @@ namespace Mariolike
                     for (int i = 0; i < count; i++)
                     {
                         if (hits[i].collider.gameObject.GetInstanceID() == m_instanceID) continue;
+                        if (forward > 0 && hits[i].point.x < pos.x) continue;
+                        if (forward < 0 && hits[i].point.x > pos.x) continue;
                         if (hits[i].point.y > pos.y + offset.y + m_stepOffset)
                         {
                             float nextX = hits[i].point.x - m_radius * forward;
