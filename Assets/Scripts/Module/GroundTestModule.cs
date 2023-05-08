@@ -45,9 +45,10 @@ namespace Mariolike
                 {
                     if (hit.collider.gameObject.GetInstanceID() != m_instanceID)
                     {
-                        if (hit.point.y <= pos.y + m_stepOffset)
+                        float hitY = Mathf.Round(hit.point.y * 1000f) * 0.001f;
+                        if (hitY <= pos.y + m_stepOffset)
                         {
-                            float nextY = hit.point.y;
+                            float nextY = hitY;
                             offset.y = nextY - pos.y;
                             return HitTestFlags.HitGround;
                         }

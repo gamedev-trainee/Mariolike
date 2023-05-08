@@ -2,108 +2,68 @@
 
 namespace Mariolike
 {
-    public abstract class CharacterScript : MonoBehaviour
+    public abstract class CharacterScript : ObjectScript
     {
-        public float moveSpeed = 0f;
-        public float gravity = 0f;
-        public float radius = 0f;
-        public float height = 0f;
-        public float footRadius = 0f;
-        public float stepOffset = 0f;
         public CharacterGroups group = CharacterGroups.A;
         public Vector3 attackRangeCenter = Vector3.zero;
         public Vector3 attackRangeSize = Vector3.zero;
+        public float scaleSpeed = 0f;
 
-        private bool m_dead = false;
-
-        protected MoveModule m_moveModule = new MoveModule();
-        protected GravityModule m_gravityModule = new GravityModule();
-        protected GroundTestModule m_groundTestModule = new GroundTestModule();
-        protected WallTestModule m_wallTestModule = new WallTestModule();
         protected AttackModule m_attackModule = new AttackModule();
+        protected ScaleModule m_scaleModule = new ScaleModule();
 
-        private void Start()
+        protected override void onStart()
         {
-            m_moveModule.setMoveSpeed(moveSpeed);
-            m_moveModule.setMoveForwardChangeCallback((int moveForward) =>
-            {
-                Vector3 eulerAngles = transform.eulerAngles;
-                eulerAngles.y = moveForward < 0 ? 180 : 0;
-                transform.eulerAngles = eulerAngles;
-            });
-            m_gravityModule.setGravity(gravity);
-            m_groundTestModule.setInstanceID(gameObject.GetInstanceID());
-            m_groundTestModule.setRadius(footRadius);
-            m_groundTestModule.setHeight(height);
-            m_groundTestModule.setStepOffset(stepOffset);
-            m_groundTestModule.setLayerMask(1 << (int)GameObjectLayers.Default);
-            m_wallTestModule.setInstanceID(gameObject.GetInstanceID());
-            m_wallTestModule.setRadius(radius);
-            m_wallTestModule.setHeight(height);
-            m_wallTestModule.setStepOffset(stepOffset);
-            m_wallTestModule.setLayerMask(1 << (int)GameObjectLayers.Default);
+            base.onStart();
+
             m_attackModule.setInstanceID(gameObject.GetInstanceID());
             m_attackModule.setTargetGroup(group == CharacterGroups.A ? CharacterGroups.B : CharacterGroups.A);
             m_attackModule.setRangeOffset(attackRangeCenter);
             m_attackModule.setRangeSize(attackRangeSize);
             m_attackModule.setLayerMask(1 << (int)GameObjectLayers.Character);
-
-            onStart();
+            m_scaleModule.setScaleSpeed(scaleSpeed);
         }
 
-        protected virtual void onStart()
+        protected sealed override void onUpdate()
         {
+            base.onUpdate();
 
-        }
-
-        void Update()
-        {
-            if (m_dead)
+            Vector3 scale = transform.localScale;
+            if (m_scaleModule.update(Time.deltaTime, ref scale))
             {
-                GameObject.Destroy(gameObject);
-                return;
-            }
-
-            Vector3 offset = Vector3.zero;
-            Vector3 pos = transform.position;
-
-            onUpdate(pos, ref offset);
-
-            if (offset.sqrMagnitude > 0)
-            {
-                pos += offset;
-                transform.position = pos;
+                transform.localScale = scale;
+                m_attackModule.setRangeScale(scale.x);
             }
         }
 
-        protected virtual void onUpdate(Vector3 pos, ref Vector3 offset)
+        protected override void onAttrChanged(AttrTypes type, int value)
         {
+            base.onAttrChanged(type, value);
 
-        }
-
-        void LateUpdate()
-        {
-            if (m_dead)
+            switch (type)
             {
-                return;
+                case AttrTypes.ScaleHP:
+                    {
+                        if (value > 0)
+                        {
+                            m_scaleModule.scaleTo(2f);
+                        }
+                        else if (value < 0)
+                        {
+                            m_scaleModule.scaleTo(1f);
+                        }
+                    }
+                    break;
             }
-
-            onLateUpdate();
         }
 
-        protected virtual void onLateUpdate()
+        protected virtual void OnDrawGizmos()
         {
-
-        }
-
-        public void kill()
-        {
-            m_dead = true;
-        }
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.DrawWireCube(transform.position + attackRangeCenter, attackRangeSize);
+            Vector3 scale = transform.localScale;
+            Color color = Gizmos.color;
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(transform.position + attackRangeCenter * scale.x, attackRangeSize * scale.x);
+            Gizmos.color = color;
         }
     }
 }

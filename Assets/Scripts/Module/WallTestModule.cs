@@ -45,13 +45,15 @@ namespace Mariolike
                 RaycastHit[] hits = Physics.CapsuleCastAll(pointBottom, pointTop, m_radius, new Vector3(forward, 0f, 0f), checkDistance, m_layerMask);
                 if (hits != null && hits.Length > 0)
                 {
+                    float hitY;
                     int count = hits.Length;
                     for (int i = 0; i < count; i++)
                     {
                         if (hits[i].collider.gameObject.GetInstanceID() == m_instanceID) continue;
                         if (forward > 0 && hits[i].point.x < pos.x) continue;
                         if (forward < 0 && hits[i].point.x > pos.x) continue;
-                        if (hits[i].point.y > pos.y + offset.y + m_stepOffset)
+                        hitY = Mathf.Round(hits[i].point.y * 1000f) * 0.001f;
+                        if (hitY > pos.y + offset.y + m_stepOffset)
                         {
                             float nextX = hits[i].point.x - m_radius * forward;
                             offset.x = nextX - pos.x;
