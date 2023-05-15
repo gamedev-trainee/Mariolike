@@ -32,8 +32,13 @@ namespace Mariolike
             if (m_scaleModule.update(Time.deltaTime, ref scale))
             {
                 transform.localScale = scale;
-                m_attackModule.setRangeScale(scale.x);
+                onScaleChanged(scale.x);
             }
+        }
+
+        protected virtual void onScaleChanged(float scale)
+        {
+            m_attackModule.setRangeScale(scale);
         }
 
         protected override void onAttrChanged(AttrTypes type, int value)

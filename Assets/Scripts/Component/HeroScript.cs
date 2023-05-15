@@ -74,6 +74,14 @@ namespace Mariolike
             m_propAttackModule.update(transform.position, this);
         }
 
+        protected override void onScaleChanged(float scale)
+        {
+            base.onScaleChanged(scale);
+
+            m_jumpAttackModule.setRangeScale(scale);
+            m_propAttackModule.setRangeScale(scale);
+        }
+
         protected override bool canSetDead()
         {
             return !m_jumpModule.isJumping();
