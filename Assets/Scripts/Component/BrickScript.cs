@@ -5,20 +5,40 @@ namespace Mariolike
     public class BrickScript : ObjectScript
     {
         public GameObject prop = null;
+        public TriggerTimingDefine propBornTiming = TriggerTimingDefine.BeattackEnd;
         public Vector3 propBornOffset = Vector3.zero;
-        public int propCount = 0;
+        public int propMaxCount = 0;
+        public bool propKillOnStart = false;
 
         private int m_propGeneratedCount = 0;
 
-        protected override void onBeattackEnd()
+        protected override void onBeattackStart(ObjectScript attacker)
         {
-            base.onBeattackEnd();
+            base.onBeattackStart(attacker);
 
+            if (propBornTiming == TriggerTimingDefine.BeattackStart)
+            {
+                onGenerateProp(attacker);
+            }
+        }
+
+        protected override void onBeattackEnd(ObjectScript attacker)
+        {
+            base.onBeattackEnd(attacker);
+
+            if (propBornTiming == TriggerTimingDefine.BeattackEnd)
+            {
+                onGenerateProp(attacker);
+            }
+        }
+
+        protected void onGenerateProp(ObjectScript attacker)
+        {
             if (prop != null)
             {
-                if (propCount > 0)
+                if (propMaxCount > 0)
                 {
-                    if (m_propGeneratedCount >= propCount)
+                    if (m_propGeneratedCount >= propMaxCount)
                     {
                         return;
                     }
@@ -28,6 +48,14 @@ namespace Mariolike
                 propInst.transform.position = transform.position + propBornOffset;
                 propInst.transform.localScale = Vector3.one;
                 propInst.transform.localRotation = Quaternion.identity;
+                if (propKillOnStart)
+                {
+                    PropScript propScript = propInst.GetComponent<PropScript>();
+                    if (propScript != null)
+                    {
+                        propScript.beattack(attacker);
+                    }
+                }
             }
         }
     }

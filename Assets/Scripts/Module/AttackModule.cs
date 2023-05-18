@@ -41,11 +41,12 @@ namespace Mariolike
             m_layerMask = value;
         }
 
-        public void update(Vector3 pos, ObjectScript attacker)
+        public bool update(Vector3 pos, ObjectScript attacker)
         {
             Collider[] colliders = Physics.OverlapBox(pos + m_rangeOffset * m_rangeScale, m_rangeSize * m_rangeScale * 0.5f, Quaternion.identity, m_layerMask);
             if (colliders != null && colliders.Length > 0)
             {
+                bool attacked = false;
                 ObjectScript targetScript;
                 int count = colliders.Length;
                 for (int i = 0; i < count; i++)
@@ -63,8 +64,11 @@ namespace Mariolike
                         if (targetScript is CharacterScript) continue;
                     }
                     targetScript.beattack(attacker);
+                    attacked = true;
                 }
+                return attacked;
             }
+            return false;
         }
     }
 }

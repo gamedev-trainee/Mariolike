@@ -68,7 +68,10 @@ namespace Mariolike
             }
             else if (m_jumpModule.isJumping())
             {
-                m_jumpAttackModule.update(transform.position, this);
+                if (m_jumpAttackModule.update(transform.position, this))
+                {
+                    m_jumpModule.reset();
+                }
             }
 
             m_propAttackModule.update(transform.position, this);

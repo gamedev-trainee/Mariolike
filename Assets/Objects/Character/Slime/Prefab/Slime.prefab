@@ -82,15 +82,20 @@ MonoBehaviour:
   attrs:
   - type: 2
     value: 1
+  movable: 1
   moveSpeed: 1
   gravity: 9.8
   radius: 0.3
   height: 0.6
   footRadius: 0.3
   stepOffset: 0
+  beattackDrop: {fileID: 5148407861730343891, guid: c18832b577bedd54d9732eac8680de8e,
+    type: 3}
+  beattackDropCount: 1
   group: 2
   attackRangeCenter: {x: 0, y: 0.25, z: 0}
   attackRangeSize: {x: 0.6, y: 0.5, z: 1}
+  scaleSpeed: 0
   deathMoveSpeedScale: 2
 --- !u!136 &4527953730158849395
 CapsuleCollider:

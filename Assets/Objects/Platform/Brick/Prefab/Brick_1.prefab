@@ -111,7 +111,8 @@ MonoBehaviour:
   stepOffset: 0
   prop: {fileID: 5148407861730343891, guid: 9ecc5143a3ef7134ea4216c48cef669a, type: 3}
   propBornOffset: {x: 0, y: 1, z: 0}
-  propCount: 0
+  propMaxCount: 1
+  propKillOnStart: 0
 --- !u!65 &6858346051657792650
 BoxCollider:
   m_ObjectHideFlags: 0

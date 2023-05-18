@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7613825051882378721}
   m_Layer: 6
   m_Name: Boximon
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -64,8 +64,8 @@ MonoBehaviour:
   jumpStartSpeed: 17.5
   jumpAttackRangeCenter: {x: 0, y: 0.5, z: 0}
   jumpAttackRangeSize: {x: 0.2, y: 0.2, z: 0.2}
-  propAttackRangeCenter: {x: 0, y: 0.25, z: 0}
-  propAttackRangeSize: {x: 0.3, y: 0.5, z: 0.3}
+  propAttackRangeCenter: {x: 0, y: 0.3, z: 0}
+  propAttackRangeSize: {x: 0.3, y: 0.6, z: 0.3}
 --- !u!136 &7613825051882378721
 CapsuleCollider:
   m_ObjectHideFlags: 0

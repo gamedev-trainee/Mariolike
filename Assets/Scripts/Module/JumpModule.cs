@@ -52,6 +52,12 @@ namespace Mariolike
             onJumpEnd();
         }
 
+        public void reset()
+        {
+            if (m_currentJumpDir == 0) return;
+            m_currentJumpSpeed *= 0.5f;
+        }
+
         public bool isJumping()
         {
             return m_currentJumpDir != 0;

@@ -6,5 +6,6 @@
         HP,
         MaxHP,
         ScaleHP,
+        Score,
     }
 }

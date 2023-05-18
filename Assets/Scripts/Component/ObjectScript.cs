@@ -3,6 +3,12 @@ using UnityEngine;
 
 namespace Mariolike
 {
+    public interface IObjectScriptEventListener
+    {
+        void onObjectStarted();
+        void onObjectAttrChanged(AttrTypes attr, int value);
+    }
+
     public class ObjectScript : MonoBehaviour
     {
         public Animator animator = null;
@@ -19,6 +25,8 @@ namespace Mariolike
         private bool m_dying = false;
 
         private bool m_beattacking = false;
+        private bool m_beattackOnStart = false;
+        private ObjectScript m_attacker = null;
         private Dictionary<AttrTypes, int> m_attrs = new Dictionary<AttrTypes, int>();
 
         protected MoveModule m_moveModule = new MoveModule();
@@ -28,8 +36,26 @@ namespace Mariolike
         protected BeattackModule m_beattackModule = new BeattackModule();
         protected DeathModule m_deathModule = new DeathModule();
 
+        private bool m_started = false;
+
+        private List<IObjectScriptEventListener> m_listeners = new List<IObjectScriptEventListener>();
+
+        public void addListener(IObjectScriptEventListener value)
+        {
+            if (m_listeners.Contains(value)) return;
+            m_listeners.Add(value);
+            if (m_started) value.onObjectStarted();
+        }
+
+        public void removeListener(IObjectScriptEventListener value)
+        {
+            m_listeners.Remove(value);
+        }
+
         private void Start()
         {
+            m_started = true;
+
             int count = attrs.Count;
             for (int i = 0; i < count; i++)
             {
@@ -63,11 +89,20 @@ namespace Mariolike
             m_deathModule.setAnimator(animator);
 
             onStart();
+
+            if (m_beattackOnStart)
+            {
+                beattack(m_attacker);
+            }
         }
 
         protected virtual void onStart()
         {
-
+            int count = m_listeners.Count;
+            for (int i = 0; i < count; i++)
+            {
+                m_listeners[i].onObjectStarted();
+            }
         }
 
         void Update()
@@ -147,7 +182,7 @@ namespace Mariolike
             {
                 if (m_beattackModule.update())
                 {
-                    onBeattackEnd();
+                    onBeattackEnd(m_attacker);
                 }
             }
             else
@@ -191,13 +226,24 @@ namespace Mariolike
 
         protected virtual void onAttrChanged(AttrTypes type, int value)
         {
-
+            int count = m_listeners.Count;
+            for (int i = 0; i < count; i++)
+            {
+                m_listeners[i].onObjectAttrChanged(type, m_attrs[type]);
+            }
         }
 
         public void beattack(ObjectScript attacker)
         {
             if (m_beattacking) return;
+            if (!m_started)
+            {
+                m_beattackOnStart = true;
+                m_attacker = attacker;
+                return;
+            }
             m_beattacking = true;
+            m_attacker = attacker;
             onBeattackStart(attacker);
         }
 
@@ -220,9 +266,10 @@ namespace Mariolike
             m_moveModule.stop();
         }
 
-        protected virtual void onBeattackEnd()
+        protected virtual void onBeattackEnd(ObjectScript attacker)
         {
             m_beattacking = false;
+            m_attacker = null;
         }
 
         public void kill(ObjectScript attacker)

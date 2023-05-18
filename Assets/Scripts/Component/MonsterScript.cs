@@ -4,6 +4,9 @@ namespace Mariolike
 {
     public class MonsterScript : CharacterScript
     {
+        public GameObject beattackDrop = null;
+        public int beattackDropCount = 0;
+
         public float deathMoveSpeedScale = 1f;
 
         protected override void onStart()
@@ -42,6 +45,27 @@ namespace Mariolike
             base.onLateUpdate();
 
             m_attackModule.update(transform.position, this);
+        }
+
+        protected override void onBeattackStart(ObjectScript attacker)
+        {
+            if (beattackDrop != null)
+            {
+                GameObject propInst;
+                for (int i = 0; i < beattackDropCount; i++)
+                {
+                    propInst = GameObject.Instantiate(beattackDrop);
+                    propInst.transform.position = transform.position;
+                    propInst.transform.localScale = Vector3.one;
+                    propInst.transform.localRotation = Quaternion.identity;
+                    PropScript propScript = propInst.GetComponent<PropScript>();
+                    if (propScript != null)
+                    {
+                        propScript.beattack(attacker);
+                    }
+                }
+            }
+            base.onBeattackStart(attacker);
         }
 
         protected override void onKill(ObjectScript attacker)
