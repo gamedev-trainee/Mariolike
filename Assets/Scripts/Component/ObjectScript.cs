@@ -5,8 +5,8 @@ namespace Mariolike
 {
     public interface IObjectScriptEventListener
     {
-        void onObjectStarted();
         void onObjectAttrChanged(AttrTypes attr, int value);
+        void onObjectDead();
     }
 
     public class ObjectScript : MonoBehaviour
@@ -44,7 +44,6 @@ namespace Mariolike
         {
             if (m_listeners.Contains(value)) return;
             m_listeners.Add(value);
-            if (m_started) value.onObjectStarted();
         }
 
         public void removeListener(IObjectScriptEventListener value)
@@ -98,15 +97,16 @@ namespace Mariolike
 
         protected virtual void onStart()
         {
-            int count = m_listeners.Count;
-            for (int i = 0; i < count; i++)
-            {
-                m_listeners[i].onObjectStarted();
-            }
+
         }
 
         void Update()
         {
+            if (GameManager.Instance.getState() != GameStates.Running)
+            {
+                return;
+            }
+
             if (m_dead)
             {
                 GameObject.Destroy(gameObject);
@@ -163,6 +163,11 @@ namespace Mariolike
 
         void LateUpdate()
         {
+            if (GameManager.Instance.getState() != GameStates.Running)
+            {
+                return;
+            }
+
             if (m_dead)
             {
                 return;
@@ -293,6 +298,11 @@ namespace Mariolike
         protected void setDead()
         {
             m_dead = true;
+            int count = m_listeners.Count;
+            for (int i = 0; i < count; i++)
+            {
+                m_listeners[i].onObjectDead();
+            }
         }
 
         protected virtual bool canSetDead()

@@ -7,12 +7,21 @@ namespace Mariolike
         public Transform followTarget = null;
         public float followDistance = 0f;
         public Vector3 followOffset = Vector3.zero;
+        public BoxCollider followRect = null;
 
         void LateUpdate()
         {
             if (followTarget == null)
             {
                 return;
+            }
+
+            if (followRect != null)
+            {
+                if (!followRect.bounds.Contains(followTarget.position))
+                {
+                    return;
+                }
             }
 
             Vector3 pos;

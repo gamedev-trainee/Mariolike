@@ -7,12 +7,12 @@ namespace Mariolike
         public float jumpStartSpeed = 0f;
         public Vector3 jumpAttackRangeCenter = Vector3.zero;
         public Vector3 jumpAttackRangeSize = Vector3.zero;
-        public Vector3 propAttackRangeCenter = Vector3.zero;
-        public Vector3 propAttackRangeSize = Vector3.zero;
+        public Vector3 objectAttackRangeCenter = Vector3.zero;
+        public Vector3 objectAttackRangeSize = Vector3.zero;
 
         private JumpModule m_jumpModule = new JumpModule();
         private AttackModule m_jumpAttackModule = new AttackModule();
-        private AttackModule m_propAttackModule = new AttackModule();
+        private AttackModule m_objectAttackModule = new AttackModule();
 
         protected override void onStart()
         {
@@ -26,11 +26,13 @@ namespace Mariolike
             m_jumpAttackModule.setRangeOffset(jumpAttackRangeCenter);
             m_jumpAttackModule.setRangeSize(jumpAttackRangeSize);
             m_jumpAttackModule.setLayerMask(1 << (int)GameObjectLayers.Brick);
-            m_propAttackModule.setInstanceID(gameObject.GetInstanceID());
-            m_propAttackModule.setTargetGroup(CharacterGroups.None);
-            m_propAttackModule.setRangeOffset(propAttackRangeCenter);
-            m_propAttackModule.setRangeSize(propAttackRangeSize);
-            m_propAttackModule.setLayerMask(1 << (int)GameObjectLayers.Prop);
+            m_objectAttackModule.setInstanceID(gameObject.GetInstanceID());
+            m_objectAttackModule.setTargetGroup(CharacterGroups.None);
+            m_objectAttackModule.setRangeOffset(objectAttackRangeCenter);
+            m_objectAttackModule.setRangeSize(objectAttackRangeSize);
+            m_objectAttackModule.setLayerMask(1 << (int)GameObjectLayers.Object);
+
+            GameManager.Instance.registerHost(this);
         }
 
         protected override void onUpdatePosition(Vector3 pos, ref Vector3 offset)
@@ -74,7 +76,7 @@ namespace Mariolike
                 }
             }
 
-            m_propAttackModule.update(transform.position, this);
+            m_objectAttackModule.update(transform.position, this);
         }
 
         protected override void onScaleChanged(float scale)
@@ -82,7 +84,7 @@ namespace Mariolike
             base.onScaleChanged(scale);
 
             m_jumpAttackModule.setRangeScale(scale);
-            m_propAttackModule.setRangeScale(scale);
+            m_objectAttackModule.setRangeScale(scale);
         }
 
         protected override bool canSetDead()
@@ -127,7 +129,7 @@ namespace Mariolike
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireCube(transform.position + jumpAttackRangeCenter * scale.x, jumpAttackRangeSize * scale.x);
             Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(transform.position + propAttackRangeCenter * scale.x, propAttackRangeSize * scale.x);
+            Gizmos.DrawWireCube(transform.position + objectAttackRangeCenter * scale.x, objectAttackRangeSize * scale.x);
             Gizmos.color = color;
         }
     }

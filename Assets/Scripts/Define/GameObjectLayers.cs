@@ -5,6 +5,6 @@
         Default = 0,
         Character = 6,
         Brick = 7,
-        Prop = 8,
+        Object = 8,
     }
 }
