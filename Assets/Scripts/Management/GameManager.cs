@@ -1,24 +1,29 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Mariolike
 {
     public interface IGameEventListener
     {
-        void onHostInited(ObjectScript host);
-        void onHostAttrChanged(ObjectScript host, AttrTypes attr, int value);
+        void onHostAttrChanged(AttrTypes attr, int value);
     }
 
-    public class GameManager : IObjectScriptEventListener
+    public class GameManager : IECSWorldEventListener
     {
         public static GameManager Instance { get; } = new GameManager();
 
         private GameStates m_state = GameStates.None;
 
-        private HeroScript m_host = null;
+        private int m_hostEntity = 0;
 
         private List<IGameEventListener> m_listeners = new List<IGameEventListener>();
 
         private int m_result = 0;
+
+        public GameManager()
+        {
+            ECSWorld.Instance.setListener(this);
+        }
 
         public void addListener(IGameEventListener value)
         {
@@ -31,20 +36,14 @@ namespace Mariolike
             m_listeners.Remove(value);
         }
 
-        public void registerHost(HeroScript host)
+        public void registerHost(int entity)
         {
-            if (m_host == host) return;
-            m_host = host;
-            if (m_host != null)
+            if (m_hostEntity == entity) return;
+            m_hostEntity = entity;
+            if (m_hostEntity != 0)
             {
                 m_result = 0;
                 m_state = GameStates.Running;
-                m_host.addListener(this);
-                int count = m_listeners.Count;
-                for (int i = 0; i < count; i++)
-                {
-                    m_listeners[i].onHostInited(m_host);
-                }
             }
         }
 
@@ -76,20 +75,34 @@ namespace Mariolike
             }
         }
 
-        // IObjectScriptEventListener
+        // IECSWorldEventListener
 
-        public void onObjectAttrChanged(AttrTypes attr, int value)
+        public void onHostInit(int entity)
+        {
+            registerHost(entity);
+            CameraScript cameraScript = Camera.main.GetComponent<CameraScript>();
+            if (cameraScript != null)
+            {
+                TransformComponent transformComponent = ECSWorld.Instance.getComponent<TransformComponent>(entity);
+                if (transformComponent != null)
+                {
+                    cameraScript.followTarget = transformComponent.transform;
+                }
+            }
+        }
+
+        public void onHostAttrChanged(AttrTypes type, int value)
         {
             int count = m_listeners.Count;
             for (int i = 0; i < count; i++)
             {
-                m_listeners[i].onHostAttrChanged(m_host, attr, value);
+                m_listeners[i].onHostAttrChanged(type, value);
             }
         }
 
-        public void onObjectDead()
+        public void onWorldEvent(EventTypes type)
         {
-            handleEvent(EventTypes.StageFail);
+            handleEvent(type);
         }
     }
 }

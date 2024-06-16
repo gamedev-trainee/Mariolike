@@ -9,5 +9,7 @@ AnimatorOverrideController:
   m_Name: score_controller
   m_Controller: {fileID: 9100000, guid: ec905e2f80a375348acca0db93ed2e5a, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: 37dfaa98a5364a74d87e3036de97d5ba, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 9f8d9eed1b6a50944926efe4c2010313, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 754f9d2bc1c272b408d7d460c35f3aee, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 37dfaa98a5364a74d87e3036de97d5ba, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8465c8c1d6daca5408f8a24fb6cf691b, type: 2}

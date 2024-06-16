@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.gamedev-trainee.ecslike": {
+      "version": "https://github.com/gamedev-trainee/ECSlike.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "ad7176f55961c386aad37f29a0c5c934d17276d8"
+    },
     "com.unity.burst": {
       "version": "1.8.2",
       "depth": 1,

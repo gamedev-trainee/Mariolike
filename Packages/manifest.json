@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.gamedev-trainee.ecslike": "https://github.com/gamedev-trainee/ECSlike.git",
     "com.unity.cinemachine": "2.8.9",
     "com.unity.collab-proxy": "2.0.3",
     "com.unity.ide.rider": "3.0.18",

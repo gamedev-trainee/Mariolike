@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ef1897a0a1cfaf429d910df704a1add, type: 3}
+  m_Name: motion_generate_score
+  m_EditorClassIdentifier: 
+  action: {fileID: 4001869240555500563}
+--- !u!114 &4001869240555500563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 958611aa716016b419ea0194348a15ce, type: 3}
+  m_Name: generate
+  m_EditorClassIdentifier: 
+  src: {fileID: 5148407861730343891, guid: 92924ec9334895f40ad907e86df03697, type: 3}
+  bornOffset: {x: 0, y: 0.5, z: 0}
+  startMotion: {fileID: 11400000, guid: c18bcf15b327e05489aeb1d1ff6f0efd, type: 2}

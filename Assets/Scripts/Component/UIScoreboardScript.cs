@@ -22,19 +22,7 @@ namespace Mariolike
 
         // IGameEventListener
 
-        public void onHostInited(ObjectScript host)
-        {
-            if (hpValue != null)
-            {
-                hpValue.text = (host.getAttr(AttrTypes.HP) + host.getAttr(AttrTypes.ScaleHP)).ToString();
-            }
-            if (scoreValue != null)
-            {
-                scoreValue.text = host.getAttr(AttrTypes.Score).ToString();
-            }
-        }
-
-        public void onHostAttrChanged(ObjectScript host, AttrTypes attr, int value)
+        public void onHostAttrChanged(AttrTypes attr, int value)
         {
             switch (attr)
             {
@@ -42,7 +30,7 @@ namespace Mariolike
                     {
                         if (hpValue != null)
                         {
-                            hpValue.text = (host.getAttr(AttrTypes.HP) + host.getAttr(AttrTypes.ScaleHP)).ToString();
+                            hpValue.text = value.ToString();
                         }
                     }
                     break;
@@ -50,7 +38,7 @@ namespace Mariolike
                     {
                         if (scoreValue != null)
                         {
-                            scoreValue.text = host.getAttr(AttrTypes.Score).ToString();
+                            scoreValue.text = value.ToString();
                         }
                     }
                     break;

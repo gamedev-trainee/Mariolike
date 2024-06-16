@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Mariolike
 {
-    public class UIManager : MonoBehaviour
+    public class UIManager : MonoBehaviour, IECSWorldUIAgent
     {
         public static UIManager Instance { get; private set; }
 
@@ -19,16 +19,8 @@ namespace Mariolike
 
             if (canvas == null) canvas = GetComponent<Canvas>();
             if (canvasScaler == null) canvasScaler = GetComponent<CanvasScaler>();
-        }
 
-        public Vector3 getAttrLocWorldPosition(AttrTypes attr, float z)
-        {
-            int index = (int)attr;
-            if (index >= 0 && index < attrLocs.Count)
-            {
-                return uiPositionToWorld(attrLocs[index].TransformPoint(Vector3.zero), z);
-            }
-            return Vector3.zero;
+            ECSWorld.Instance.setUIAgent(this);
         }
 
         public Vector3 uiPositionToWorld(Vector3 uiPosition, float z)
@@ -48,6 +40,18 @@ namespace Mariolike
             }
             Ray ray = Camera.main.ScreenPointToRay(screenPosition);
             return ray.GetPoint(z - ray.origin.z);
+        }
+
+        // IECSWorldUIAgent
+
+        public Vector3 getUIAttrWorldPosition(AttrTypes attrType, float z)
+        {
+            int index = (int)attrType;
+            if (index >= 0 && index < attrLocs.Count)
+            {
+                return uiPositionToWorld(attrLocs[index].TransformPoint(Vector3.zero), z);
+            }
+            return Vector3.zero;
         }
     }
 }
