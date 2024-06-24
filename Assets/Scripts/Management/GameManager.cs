@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ECSlike;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mariolike
@@ -14,7 +15,7 @@ namespace Mariolike
 
         private GameStates m_state = GameStates.None;
 
-        private int m_hostEntity = 0;
+        private Entity m_hostEntity = Entity.Null;
 
         private List<IGameEventListener> m_listeners = new List<IGameEventListener>();
 
@@ -36,11 +37,11 @@ namespace Mariolike
             m_listeners.Remove(value);
         }
 
-        public void registerHost(int entity)
+        public void registerHost(Entity entity)
         {
-            if (m_hostEntity == entity) return;
+            if (m_hostEntity.Equals(entity)) return;
             m_hostEntity = entity;
-            if (m_hostEntity != 0)
+            if (!m_hostEntity.isNull())
             {
                 m_result = 0;
                 m_state = GameStates.Running;
@@ -77,13 +78,13 @@ namespace Mariolike
 
         // IECSWorldEventListener
 
-        public void onHostInit(int entity)
+        public void onHostInit(Entity entity)
         {
             registerHost(entity);
             CameraScript cameraScript = Camera.main.GetComponent<CameraScript>();
             if (cameraScript != null)
             {
-                TransformComponent transformComponent = ECSWorld.Instance.getComponent<TransformComponent>(entity);
+                TransformComponent transformComponent = entity.getComponent<TransformComponent>();
                 if (transformComponent != null)
                 {
                     cameraScript.followTarget = transformComponent.transform;

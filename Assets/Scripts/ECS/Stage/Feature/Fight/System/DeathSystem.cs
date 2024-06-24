@@ -20,34 +20,34 @@ namespace Mariolike
             };
         }
 
-        protected override void onUpdateEntity(World world, int entity)
+        protected override void onUpdateEntity(Entity entity)
         {
-            DeathComponent deathComponent = world.getComponent<DeathComponent>(entity);
+            DeathComponent deathComponent = entity.getComponent<DeathComponent>();
             if (deathComponent.iNextDeathState > FightProgressStates.None)
             {
                 deathComponent.mCurDeathState = FightProgressStates.Ready;
                 deathComponent.mCurKiller = deathComponent.iNextKiller;
                 deathComponent.iNextDeathState = 0;
-                deathComponent.iNextKiller = 0;
+                deathComponent.iNextKiller = Entity.Null;
             }
             switch (deathComponent.mCurDeathState)
             {
                 case FightProgressStates.Ready:
                     {
                         deathComponent.mCurDeathState = FightProgressStates.Running;
-                        MoveComponent moveComponent = world.getComponent<MoveComponent>(entity);
+                        MoveComponent moveComponent = entity.getComponent<MoveComponent>();
                         if (moveComponent != null)
                         {
                             moveComponent.stopMove();
                         }
-                        AnimatorComponent animatorComponent = world.getComponent<AnimatorComponent>(entity);
+                        AnimatorComponent animatorComponent = entity.getComponent<AnimatorComponent>();
                         if (animatorComponent != null)
                         {
                             animatorComponent.setParameter(DeathComponent.DeathStateParameter, (int)DeathComponent.DeathStates.Dying);
                         }
                         if (deathComponent.motion != null)
                         {
-                            MotionPlayComponent motionPlayComponent = world.getOrAddComponent<MotionPlayComponent>(entity);
+                            MotionPlayComponent motionPlayComponent = entity.getOrAddComponent<MotionPlayComponent>();
                             motionPlayComponent.playMotion(deathComponent.motion, deathComponent.mCurKiller, onSelfDeathMotionComplete, deathComponent);
                         }
                         else
@@ -58,7 +58,7 @@ namespace Mariolike
                     break;
                 case FightProgressStates.Ending:
                     {
-                        AnimatorComponent animatorComponent = world.getComponent<AnimatorComponent>(entity);
+                        AnimatorComponent animatorComponent = entity.getComponent<AnimatorComponent>();
                         if (animatorComponent != null)
                         {
                             if (animatorComponent.isStateComplete(DeathComponent.DeathStateName))
@@ -74,7 +74,7 @@ namespace Mariolike
                     break;
                 case FightProgressStates.End:
                     {
-                        world.addComponent<DisposeComponent>(entity);
+                        entity.addComponent<DisposeComponent>();
                     }
                     break;
             }

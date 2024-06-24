@@ -1,4 +1,6 @@
-﻿namespace Mariolike
+﻿using ECSlike;
+
+namespace Mariolike
 {
     public class BeattackActionPlayer : ActionPlayer
     {
@@ -8,14 +10,14 @@
         {
             base.play();
 
-            int attacker = getTrigger();
+            Entity attacker = getTrigger();
             BeattackComponent beattackComponent = getOrAddComponent<BeattackComponent>();
-            BeattackClip beattackClip = FightUtils.FindBeattackClip(getWorld(), getEntity(), beattackComponent);
+            BeattackClip beattackClip = FightUtils.FindBeattackClip(getEntity(), beattackComponent);
             if (beattackClip != null)
             {
                 if (beattackClip.counterMotion != null)
                 {
-                    MotionPlayComponent attackerMotionPlayComponent = getWorld().getOrAddComponent<MotionPlayComponent>(attacker);
+                    MotionPlayComponent attackerMotionPlayComponent = attacker.getOrAddComponent<MotionPlayComponent>();
                     attackerMotionPlayComponent.playMotion(beattackClip.counterMotion, getEntity());
                 }
             }

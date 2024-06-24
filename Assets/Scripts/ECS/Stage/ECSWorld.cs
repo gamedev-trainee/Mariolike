@@ -1,3 +1,4 @@
+using ECSlike;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace Mariolike
 
     public interface IECSWorldEventListener
     {
-        void onHostInit(int entity);
+        void onHostInit(Entity entity);
         void onHostAttrChanged(AttrTypes type, int value);
         void onWorldEvent(EventTypes type);
     }
@@ -19,7 +20,7 @@ namespace Mariolike
     {
         public static ECSWorld Instance { get; } = new ECSWorld();
 
-        private int m_hostEntity = 0;
+        private Entity m_hostEntity = Entity.Null;
 
         private IECSWorldUIAgent m_uiAgent = null;
         private IECSWorldEventListener m_listener = null;
@@ -39,29 +40,29 @@ namespace Mariolike
             m_listener = value;
             if (m_listener != null)
             {
-                if (m_hostEntity != 0)
+                if (!m_hostEntity.isNull())
                 {
                     onInitHost(m_hostEntity, m_listener);
                 }
             }
         }
 
-        public int createEntityBy(EntityScript script)
+        public Entity createEntityBy(EntityScript script)
         {
-            int entity = createEntityBy(script.gameObject);
-            TransformComponent transformComponent = getComponent<TransformComponent>(entity);
+            Entity entity = createEntityBy(script.gameObject);
+            TransformComponent transformComponent = entity.getComponent<TransformComponent>();
             if (transformComponent == null)
             {
-                transformComponent = addComponent<TransformComponent>(entity);
+                transformComponent = entity.addComponent<TransformComponent>();
                 transformComponent.transform = script.transform;
             }
-            PositionComponent positionComponent = addComponent<PositionComponent>(entity);
+            PositionComponent positionComponent = entity.addComponent<PositionComponent>();
             positionComponent.position = script.transform.position;
-            RotationComponent rotationComponent = addComponent<RotationComponent>(entity);
+            RotationComponent rotationComponent = entity.addComponent<RotationComponent>();
             rotationComponent.rotation = script.transform.eulerAngles;
-            EventListenerComponent eventListenerComponent = addComponent<EventListenerComponent>(entity);
+            EventListenerComponent eventListenerComponent = entity.addComponent<EventListenerComponent>();
             eventListenerComponent.mCurEventListeners.Add(onReceiveEntityEvent);
-            TagComponent tagComponent = getComponent<TagComponent>(entity);
+            TagComponent tagComponent = entity.getComponent<TagComponent>();
             if (tagComponent != null && tagComponent.containsTag(Tags.Host))
             {
                 m_hostEntity = entity;
@@ -79,10 +80,10 @@ namespace Mariolike
             return Vector3.zero;
         }
 
-        protected void onInitHost(int entity, IECSWorldEventListener listener)
+        protected void onInitHost(Entity entity, IECSWorldEventListener listener)
         {
             listener.onHostInit(entity);
-            AttrComponent attrComponent = getComponent<AttrComponent>(entity);
+            AttrComponent attrComponent = entity.getComponent<AttrComponent>();
             if (attrComponent != null)
             {
                 foreach (KeyValuePair<AttrTypes, int> kv in attrComponent.mAttrs)
@@ -92,7 +93,7 @@ namespace Mariolike
             }
         }
 
-        protected void onReceiveEntityEvent(EventTypes eventType, int entity, object parameter)
+        protected void onReceiveEntityEvent(EventTypes eventType, Entity entity, object parameter)
         {
             if (eventType < EventTypes.WorldEventMax)
             {
@@ -100,7 +101,7 @@ namespace Mariolike
             }
             else
             {
-                TagComponent tagComponent = getComponent<TagComponent>(entity);
+                TagComponent tagComponent = entity.getComponent<TagComponent>();
                 if (tagComponent == null || !tagComponent.containsTag(Tags.Host))
                 {
                     return;
@@ -110,7 +111,7 @@ namespace Mariolike
                     case EventTypes.AttrChange:
                         {
                             AttrTypes attrType = (AttrTypes)parameter;
-                            AttrComponent attrComponent = getComponent<AttrComponent>(entity);
+                            AttrComponent attrComponent = entity.getComponent<AttrComponent>();
                             int value = attrComponent.getAttr(attrType);
                             m_listener?.onHostAttrChanged(attrType, value);
                         }

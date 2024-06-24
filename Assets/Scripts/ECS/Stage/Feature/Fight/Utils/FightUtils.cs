@@ -28,13 +28,13 @@ namespace Mariolike
             return false;
         }
 
-        public static BeattackClip FindBeattackClip(World world, int entity, BeattackComponent beattackComponent)
+        public static BeattackClip FindBeattackClip(Entity entity, BeattackComponent beattackComponent)
         {
             if (beattackComponent.beattackClips.Count <= 0) return null;
             int count = beattackComponent.beattackClips.Count;
             for (int i = 0; i < count; i++)
             {
-                if (IsBeattackClipAvailable(world, entity, beattackComponent.beattackClips[i]))
+                if (IsBeattackClipAvailable(entity, beattackComponent.beattackClips[i]))
                 {
                     return beattackComponent.beattackClips[i];
                 }
@@ -42,17 +42,17 @@ namespace Mariolike
             return null;
         }
 
-        public static bool IsBeattackClipAvailable(World world, int entity, BeattackClip clip)
+        public static bool IsBeattackClipAvailable(Entity entity, BeattackClip clip)
         {
-            return CheckCondition(world, entity, clip.condition);
+            return CheckCondition(entity, clip.condition);
         }
 
-        public static bool CheckCondition(World world, int entity, ConditionInfo condition)
+        public static bool CheckCondition(Entity entity, ConditionInfo condition)
         {
             if (condition.type == ConditionTypes.None) return true;
             if (condition.type > ConditionTypes.AttrConditionsBegin && condition.type < ConditionTypes.AttrConditionsEnd)
             {
-                AttrComponent attrComponent = world.getComponent<AttrComponent>(entity);
+                AttrComponent attrComponent = entity.getComponent<AttrComponent>();
                 if (attrComponent == null) return false;
                 switch (condition.type)
                 {

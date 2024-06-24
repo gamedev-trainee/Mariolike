@@ -23,12 +23,12 @@ namespace Mariolike
             };
         }
 
-        protected override void onUpdateEntity(World world, int entity)
+        protected override void onUpdateEntity(Entity entity)
         {
-            HitTestColliderComponent hitTestColliderComponent = world.getComponent<HitTestColliderComponent>(entity);
-            HitTestGroundComponent hitTestGroundComponent = world.getComponent<HitTestGroundComponent>(entity);
+            HitTestColliderComponent hitTestColliderComponent = entity.getComponent<HitTestColliderComponent>();
+            HitTestGroundComponent hitTestGroundComponent = entity.getComponent<HitTestGroundComponent>();
             HitTestFlags oldFlags = hitTestGroundComponent.mHitFlags;
-            PositionComponent positionComponent = world.getComponent<PositionComponent>(entity);
+            PositionComponent positionComponent = entity.getComponent<PositionComponent>();
             if (positionComponent.offset.y <= 0f)
             {
                 RaycastHit hit;

@@ -22,16 +22,16 @@ namespace Mariolike
             };
         }
 
-        protected override void onUpdateEntity(World world, int entity)
+        protected override void onUpdateEntity(Entity entity)
         {
-            JumpComponent jumpComponent = world.getComponent<JumpComponent>(entity);
+            JumpComponent jumpComponent = entity.getComponent<JumpComponent>();
             if (jumpComponent.iNextJumpDir > 0)
             {
                 if (jumpComponent.mCurJumpDir == 0)
                 {
                     jumpComponent.mCurJumpDir = 1;
                     jumpComponent.mCurJumpSpeed = jumpComponent.jumpSpeed;
-                    AnimatorComponent animationPlayComponent = world.getComponent<AnimatorComponent>(entity);
+                    AnimatorComponent animationPlayComponent = entity.getComponent<AnimatorComponent>();
                     if (animationPlayComponent != null)
                     {
                         animationPlayComponent.setParameter(JumpComponent.JumpStateParameter, (int)JumpComponent.JumpStates.Jumping);
@@ -41,10 +41,10 @@ namespace Mariolike
             }
             if (jumpComponent.mCurJumpDir != 0)
             {
-                PositionComponent positionComponent = world.getComponent<PositionComponent>(entity);
+                PositionComponent positionComponent = entity.getComponent<PositionComponent>();
                 positionComponent.addY(jumpComponent.mCurJumpSpeed * UnityEngine.Time.deltaTime);
                 // 使用跳跃速度减去重力更新跳跃速度
-                GravityComponent gravityComponent = world.getComponent<GravityComponent>(entity);
+                GravityComponent gravityComponent = entity.getComponent<GravityComponent>();
                 jumpComponent.mCurJumpSpeed -= gravityComponent.gravity * UnityEngine.Time.deltaTime;
                 if (jumpComponent.mCurJumpSpeed <= 0)
                 {

@@ -21,16 +21,16 @@ namespace Mariolike
         //
 
         public FightProgressStates iNextDeathState = FightProgressStates.None;
-        public int iNextKiller = 0;
+        public Entity iNextKiller = Entity.Null;
 
         //
 
         public FightProgressStates mCurDeathState = FightProgressStates.None;
-        public int mCurKiller = 0;
+        public Entity mCurKiller = Entity.Null;
 
         //
 
-        public bool startDeath(int killer)
+        public bool startDeath(Entity killer)
         {
             if (iNextDeathState > FightProgressStates.None || mCurDeathState > FightProgressStates.None) return false;
             iNextDeathState = FightProgressStates.Ready;

@@ -1,9 +1,11 @@
-﻿namespace Mariolike
+﻿using ECSlike;
+
+namespace Mariolike
 {
     public class MotionPlayData
     {
         public MotionClip motion = null;
-        public int trigger = 0;
+        public Entity trigger = Entity.Null;
         public System.Action<object> callback = null;
         public object parameter = null;
     }

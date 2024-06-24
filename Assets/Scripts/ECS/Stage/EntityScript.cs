@@ -1,15 +1,16 @@
-﻿using UnityEngine;
+﻿using ECSlike;
+using UnityEngine;
 
 namespace Mariolike
 {
     public class EntityScript : MonoBehaviour
     {
         [HideInInspector]
-        public int entity = 0;
+        public Entity entity = Entity.Null;
 
         private void Start()
         {
-            if (entity == 0)
+            if (entity.isNull())
             {
                 entity = ECSWorld.Instance.createEntityBy(this);
             }

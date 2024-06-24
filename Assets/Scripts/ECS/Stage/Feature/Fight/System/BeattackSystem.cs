@@ -20,14 +20,14 @@ namespace Mariolike
             };
         }
 
-        protected override void onUpdateEntity(World world, int entity)
+        protected override void onUpdateEntity(Entity entity)
         {
-            DeathComponent deathComponent = world.getComponent<DeathComponent>(entity);
+            DeathComponent deathComponent = entity.getComponent<DeathComponent>();
             if (deathComponent != null && deathComponent.isDying())
             {
                 return;
             }
-            BeattackComponent beattackComponent = world.getComponent<BeattackComponent>(entity);
+            BeattackComponent beattackComponent = entity.getComponent<BeattackComponent>();
             if (beattackComponent.iNextBeattackState > FightProgressStates.None)
             {
                 beattackComponent.mCurBeattackState = FightProgressStates.Ready;
@@ -35,28 +35,28 @@ namespace Mariolike
                 beattackComponent.mCurAttacker = beattackComponent.iNextAttacker;
                 beattackComponent.iNextBeattackState = 0;
                 beattackComponent.iNextBeattackClip = null;
-                beattackComponent.iNextAttacker = 0;
+                beattackComponent.iNextAttacker = Entity.Null;
             }
             switch (beattackComponent.mCurBeattackState)
             {
                 case FightProgressStates.Ready:
                     {
                         beattackComponent.mCurBeattackState = FightProgressStates.Running;
-                        MoveComponent moveComponent = world.getComponent<MoveComponent>(entity);
+                        MoveComponent moveComponent = entity.getComponent<MoveComponent>();
                         if (moveComponent != null)
                         {
                             moveComponent.stopMove();
                         }
                         if (beattackComponent.mCurBeattackClip != null)
                         {
-                            AnimatorComponent animatorComponent = world.getComponent<AnimatorComponent>(entity);
+                            AnimatorComponent animatorComponent = entity.getComponent<AnimatorComponent>();
                             if (animatorComponent != null)
                             {
                                 animatorComponent.setParameter(BeattackComponent.BeattackStateParameter, (int)BeattackComponent.BeattackStates.Beattacking);
                             }
                             if (beattackComponent.mCurBeattackClip.motion != null)
                             {
-                                MotionPlayComponent motionPlayComponent = world.getOrAddComponent<MotionPlayComponent>(entity);
+                                MotionPlayComponent motionPlayComponent = entity.getOrAddComponent<MotionPlayComponent>();
                                 motionPlayComponent.playMotion(beattackComponent.mCurBeattackClip.motion, beattackComponent.mCurAttacker, onBeattackMotionComplete, beattackComponent);
                             }
                             else
@@ -72,7 +72,7 @@ namespace Mariolike
                     break;
                 case FightProgressStates.Ending:
                     {
-                        AnimatorComponent animatorComponent = world.getComponent<AnimatorComponent>(entity);
+                        AnimatorComponent animatorComponent = entity.getComponent<AnimatorComponent>();
                         if (animatorComponent != null)
                         {
                             if (animatorComponent.isStateComplete(BeattackComponent.BeattackStateName))
@@ -88,17 +88,17 @@ namespace Mariolike
                     break;
                 case FightProgressStates.End:
                     {
-                        int attacker = beattackComponent.mCurAttacker;
+                        Entity attacker = beattackComponent.mCurAttacker;
                         beattackComponent.mCurBeattackState = FightProgressStates.None;
-                        beattackComponent.mCurAttacker = 0;
-                        AnimatorComponent animatorComponent = world.getComponent<AnimatorComponent>(entity);
+                        beattackComponent.mCurAttacker = Entity.Null;
+                        AnimatorComponent animatorComponent = entity.getComponent<AnimatorComponent>();
                         if (animatorComponent != null)
                         {
                             animatorComponent.setParameter(BeattackComponent.BeattackStateParameter, (int)BeattackComponent.BeattackStates.None);
                         }
                         if (deathComponent != null)
                         {
-                            if (FightUtils.CheckCondition(world, entity, deathComponent.condition))
+                            if (FightUtils.CheckCondition(entity, deathComponent.condition))
                             {
                                 deathComponent.startDeath(attacker);
                             }

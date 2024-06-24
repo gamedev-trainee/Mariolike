@@ -20,9 +20,9 @@ namespace Mariolike
             };
         }
 
-        protected override void onUpdateEntity(World world, int entity)
+        protected override void onUpdateEntity(Entity entity)
         {
-            MotionPlayComponent motionPlayComponent = world.getComponent<MotionPlayComponent>(entity);
+            MotionPlayComponent motionPlayComponent = entity.getComponent<MotionPlayComponent>();
             if (motionPlayComponent.iCurMotionData != null)
             {
                 motionPlayComponent.iCurMotionPlayer.update();
@@ -41,9 +41,8 @@ namespace Mariolike
                 motionPlayComponent.iNextMotions.RemoveAt(0);
                 motionPlayComponent.iCurMotionData = playData;
                 motionPlayComponent.iCurMotionPlayer = new MotionPlayer();
-                motionPlayComponent.iCurMotionPlayer.setWorld(world);
                 motionPlayComponent.iCurMotionPlayer.setEntity(entity);
-                motionPlayComponent.iCurMotionPlayer.setTrigger(playData.trigger > 0 ? playData.trigger : entity);
+                motionPlayComponent.iCurMotionPlayer.setTrigger(playData.trigger.isNull() ? entity : playData.trigger);
                 motionPlayComponent.iCurMotionPlayer.setData(playData.motion);
                 motionPlayComponent.iCurMotionPlayer.play();
             }

@@ -21,11 +21,11 @@ namespace Mariolike
             };
         }
 
-        protected override void onUpdateEntity(World world, int entity)
+        protected override void onUpdateEntity(Entity entity)
         {
-            RotationComponent rotationComponent = world.getComponent<RotationComponent>(entity);
+            RotationComponent rotationComponent = entity.getComponent<RotationComponent>();
             if (!rotationComponent.changed) return;
-            TransformComponent transformComponent = world.getComponent<TransformComponent>(entity);
+            TransformComponent transformComponent = entity.getComponent<TransformComponent>();
             transformComponent.transform.eulerAngles = rotationComponent.rotation;
             rotationComponent.changed = false;
         }

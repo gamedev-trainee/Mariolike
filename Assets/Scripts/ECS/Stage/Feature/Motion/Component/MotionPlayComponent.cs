@@ -16,7 +16,7 @@ namespace Mariolike
 
         //
 
-        public void playMotion(MotionClip motion, int trigger)
+        public void playMotion(MotionClip motion, Entity trigger)
         {
             iNextMotions.Add(new MotionPlayData()
             {
@@ -25,7 +25,7 @@ namespace Mariolike
             });
         }
 
-        public void playMotion(MotionClip motion, int trigger, System.Action<object> callback, object parameter = null)
+        public void playMotion(MotionClip motion, Entity trigger, System.Action<object> callback, object parameter = null)
         {
             iNextMotions.Add(new MotionPlayData()
             {

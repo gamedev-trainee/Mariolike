@@ -20,17 +20,17 @@ namespace Mariolike
 
         public FightProgressStates iNextBeattackState = FightProgressStates.None;
         public BeattackClip iNextBeattackClip = null;
-        public int iNextAttacker = 0;
+        public Entity iNextAttacker = Entity.Null;
 
         //
 
         public FightProgressStates mCurBeattackState = FightProgressStates.None;
         public BeattackClip mCurBeattackClip = null;
-        public int mCurAttacker = 0;
+        public Entity mCurAttacker = Entity.Null;
 
         //
 
-        public bool startBeattack(BeattackClip clip, int attacker)
+        public bool startBeattack(BeattackClip clip, Entity attacker)
         {
             if (isBeattacking()) return false;
             iNextBeattackState = FightProgressStates.Ready;

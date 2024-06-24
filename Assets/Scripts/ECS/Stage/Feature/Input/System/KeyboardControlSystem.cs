@@ -23,16 +23,16 @@ namespace Mariolike
             };
         }
 
-        protected override void onUpdateEntity(World world, int entity)
+        protected override void onUpdateEntity(Entity entity)
         {
-            DeathComponent deathComponent = world.getComponent<DeathComponent>(entity);
+            DeathComponent deathComponent = entity.getComponent<DeathComponent>();
             if (deathComponent != null && deathComponent.isDying())
             {
                 return;
             }
-            KeyboardControlComponent keyboardComponent = world.getComponent<KeyboardControlComponent>(entity);
-            MoveComponent moveComponent = world.getComponent<MoveComponent>(entity);
-            JumpComponent jumpComponent = world.getComponent<JumpComponent>(entity);
+            KeyboardControlComponent keyboardComponent = entity.getComponent<KeyboardControlComponent>();
+            MoveComponent moveComponent = entity.getComponent<MoveComponent>();
+            JumpComponent jumpComponent = entity.getComponent<JumpComponent>();
             if (Input.GetKey(keyboardComponent.moveLeftKey))
             {
                 moveComponent.startMoveLeft();

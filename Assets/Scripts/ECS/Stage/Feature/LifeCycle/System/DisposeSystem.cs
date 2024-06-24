@@ -18,14 +18,14 @@ namespace Mariolike
             return null;
         }
 
-        protected override void onUpdateEntity(World world, int entity)
+        protected override void onUpdateEntity(Entity entity)
         {
-            TransformComponent transformComponent = world.getComponent<TransformComponent>(entity);
+            TransformComponent transformComponent = entity.getComponent<TransformComponent>();
             if (transformComponent != null)
             {
                 GameObject.Destroy(transformComponent.transform.gameObject);
             }
-            world.destroyEntity(entity);
+            entity.destroy();
         }
     }
 }

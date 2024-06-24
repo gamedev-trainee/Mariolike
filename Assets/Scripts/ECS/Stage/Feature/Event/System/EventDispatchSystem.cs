@@ -21,12 +21,12 @@ namespace Mariolike
             };
         }
 
-        protected override void onUpdateEntity(World world, int entity)
+        protected override void onUpdateEntity(Entity entity)
         {
-            EventDispatchComponent eventDispatchComponent = world.getComponent<EventDispatchComponent>(entity);
+            EventDispatchComponent eventDispatchComponent = entity.getComponent<EventDispatchComponent>();
             if (eventDispatchComponent.iNextDispatchEvents.Count > 0)
             {
-                EventListenerComponent eventListenerComponent = world.getComponent<EventListenerComponent>(entity);
+                EventListenerComponent eventListenerComponent = entity.getComponent<EventListenerComponent>();
                 if (eventListenerComponent.mCurEventListeners.Count > 0)
                 {
                     int count = eventDispatchComponent.iNextDispatchEvents.Count;
@@ -39,7 +39,7 @@ namespace Mariolike
             }
         }
 
-        protected void onDispatchEvent(int entity, EventListenerComponent eventListenerComponent, EventDispatchData dispatchData)
+        protected void onDispatchEvent(Entity entity, EventListenerComponent eventListenerComponent, EventDispatchData dispatchData)
         {
             int count = eventListenerComponent.mCurEventListeners.Count;
             for (int i = 0; i < count; i++)

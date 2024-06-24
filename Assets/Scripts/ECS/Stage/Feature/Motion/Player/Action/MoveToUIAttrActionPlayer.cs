@@ -30,7 +30,7 @@ namespace Mariolike
         {
             base.onUpdate();
 
-            m_endPosition = (getWorld() as ECSWorld).getUIAttrPosition(clip.attrType, m_startPosition.z);
+            m_endPosition = (getEntity().world as ECSWorld).getUIAttrPosition(clip.attrType, m_startPosition.z);
             Vector3 position = Vector3.Lerp(m_startPosition, m_endPosition, getProgress());
             m_transform.position = position;
         }

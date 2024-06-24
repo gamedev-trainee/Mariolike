@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ECSlike;
+using UnityEngine;
 
 namespace Mariolike
 {
@@ -22,8 +23,8 @@ namespace Mariolike
                     EntityScript entityScript = inst.GetComponent<EntityScript>();
                     if (entityScript != null)
                     {
-                        int entityID = ECSWorld.Instance.createEntityBy(entityScript);
-                        MotionPlayComponent motionPlayComponent = ECSWorld.Instance.getOrAddComponent<MotionPlayComponent>(entityID);
+                        Entity entity = (getEntity().world as ECSWorld).createEntityBy(entityScript);
+                        MotionPlayComponent motionPlayComponent = entity.getOrAddComponent<MotionPlayComponent>();
                         motionPlayComponent.playMotion(clip.startMotion, getTrigger());
                     }
                 }

@@ -21,14 +21,14 @@ namespace Mariolike
             };
         }
 
-        protected override void onUpdateEntity(World world, int entity)
+        protected override void onUpdateEntity(Entity entity)
         {
-            GravityComponent gravityComponent = world.getComponent<GravityComponent>(entity);
+            GravityComponent gravityComponent = entity.getComponent<GravityComponent>();
             if (gravityComponent.mCurGravity <= 0f)
             {
                 gravityComponent.mCurGravity = gravityComponent.gravity;
             }
-            PositionComponent positionComponent = world.getComponent<PositionComponent>(entity);
+            PositionComponent positionComponent = entity.getComponent<PositionComponent>();
             positionComponent.addY(-gravityComponent.mCurGravity * UnityEngine.Time.deltaTime);
             gravityComponent.mCurGravity += gravityComponent.gravity * UnityEngine.Time.deltaTime;
         }

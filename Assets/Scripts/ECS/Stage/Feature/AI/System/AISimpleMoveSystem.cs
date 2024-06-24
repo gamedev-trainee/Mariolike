@@ -22,21 +22,21 @@ namespace Mariolike
             };
         }
 
-        protected override void onUpdateEntity(World world, int entity)
+        protected override void onUpdateEntity(Entity entity)
         {
-            DeathComponent deathComponent = world.getComponent<DeathComponent>(entity);
+            DeathComponent deathComponent = entity.getComponent<DeathComponent>();
             if (deathComponent != null && deathComponent.isDying())
             {
                 return;
             }
-            MoveComponent moveComponent = world.getComponent<MoveComponent>(entity);
+            MoveComponent moveComponent = entity.getComponent<MoveComponent>();
             if (!moveComponent.isMoving())
             {
                 moveComponent.startMove(Random.Range(0, 100) % 2 == 0 ? -1 : 1);
             }
             else
             {
-                HitTestWallComponent hitTestComponent = world.getComponent<HitTestWallComponent>(entity);
+                HitTestWallComponent hitTestComponent = entity.getComponent<HitTestWallComponent>();
                 if (hitTestComponent != null)
                 {
                     if (hitTestComponent.mHitFlags != HitTestFlags.None)

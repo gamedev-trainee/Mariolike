@@ -4,26 +4,20 @@ namespace Mariolike
 {
     public class MotionPlayer
     {
-        private World m_world = null;
-        private int m_entity = 0;
+        private Entity m_entity = Entity.Null;
+        private Entity m_trigger = Entity.Null;
         private MotionClip m_data = null;
-        private int m_trigger = 0;
 
         private bool m_isDone = false;
 
         private ActionPlayer m_curPlayer = null;
 
-        public void setWorld(World world)
-        {
-            m_world = world;
-        }
-
-        public void setEntity(int value)
+        public void setEntity(Entity value)
         {
             m_entity = value;
         }
 
-        public void setTrigger(int value)
+        public void setTrigger(Entity value)
         {
             m_trigger = value;
         }
@@ -36,7 +30,6 @@ namespace Mariolike
         public void play()
         {
             m_curPlayer = MotionUtils.CreateActionPlayer(m_data.action.GetType());
-            m_curPlayer.setWorld(m_world);
             m_curPlayer.setEntity(m_entity);
             m_curPlayer.setTrigger(m_trigger);
             m_curPlayer.setData(m_data.action);
@@ -68,8 +61,6 @@ namespace Mariolike
                 m_curPlayer = null;
             }
             m_data = null;
-            m_entity = 0;
-            m_world = null;
         }
     }
 }

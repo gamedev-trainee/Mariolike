@@ -102,7 +102,6 @@ namespace Mariolike
         protected ActionPlayer createActionPlayer(ActionClip action)
         {
             ActionPlayer player = MotionUtils.CreateActionPlayer(action.GetType());
-            player.setWorld(getWorld());
             player.setEntity(getEntity());
             player.setTrigger(getTrigger());
             player.setData(action);

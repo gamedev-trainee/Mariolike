@@ -23,12 +23,12 @@ namespace Mariolike
             };
         }
 
-        protected override void onUpdateEntity(World world, int entity)
+        protected override void onUpdateEntity(Entity entity)
         {
-            HitTestColliderComponent hitTestColliderComponent = world.getComponent<HitTestColliderComponent>(entity);
-            HitTestWallComponent hitTestWallComponent = world.getComponent<HitTestWallComponent>(entity);
+            HitTestColliderComponent hitTestColliderComponent = entity.getComponent<HitTestColliderComponent>();
+            HitTestWallComponent hitTestWallComponent = entity.getComponent<HitTestWallComponent>();
             hitTestWallComponent.mHitFlags = HitTestFlags.None;
-            PositionComponent positionComponent = world.getComponent<PositionComponent>(entity);
+            PositionComponent positionComponent = entity.getComponent<PositionComponent>();
             if (positionComponent.offset.x != 0f)
             {
                 int moveForward = positionComponent.offset.x > 0 ? 1 : -1;
