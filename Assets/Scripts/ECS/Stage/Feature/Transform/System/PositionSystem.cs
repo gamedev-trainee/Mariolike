@@ -29,9 +29,9 @@ namespace Mariolike
             {
                 positionComponent.position += positionComponent.offset;
                 positionComponent.offset.Set(0f, 0f, 0f);
-                TransformComponent transformComponent = entity.getComponent<TransformComponent>();
-                transformComponent.transform.position = positionComponent.position;
             }
+            TransformComponent transformComponent = entity.getComponent<TransformComponent>();
+            transformComponent.transform.position = positionComponent.position;
             positionComponent.changed = false;
         }
     }
