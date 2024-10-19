@@ -1232,9 +1232,7 @@ GameObject:
   - component: {fileID: 1546480488313463617}
   - component: {fileID: 6058157733508558153}
   - component: {fileID: 6058157733508558158}
-  - component: {fileID: 6058157733508558159}
-  - component: {fileID: 6058157733508558156}
-  - component: {fileID: 6058157733508558157}
+  - component: {fileID: 8268939266166699133}
   - component: {fileID: 6058157733508558194}
   - component: {fileID: 6058157733508558195}
   - component: {fileID: 6058157733508558192}
@@ -1289,7 +1287,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff895a29f3e8e3f4784547211b43395b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: 0
 --- !u!114 &6058157733508558154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1377,7 +1374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   group: 1
---- !u!114 &6058157733508558159
+--- !u!114 &8268939266166699133
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1386,37 +1383,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9098091095259240802}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b06f484584a2f9e45a2fc5cd66cc7d13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6058157733508558156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9098091095259240802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de5b5741be56a604eae1a9934da6d55b, type: 3}
+  m_Script: {fileID: 11500000, guid: 93670866e7daf7147bfed0e748cfff73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   footRadius: 0.1
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 129
---- !u!114 &6058157733508558157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9098091095259240802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20c41432c98b94c4fa5694db4a117648, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   stepOffset: 0.25
   layerMask:
     serializedVersion: 2
@@ -1461,7 +1431,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ececb266ae56644b98f24fbb3e6e9c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveAnimationName: move
   moveSpeed: 2
 --- !u!114 &6058157733508558193
 MonoBehaviour:

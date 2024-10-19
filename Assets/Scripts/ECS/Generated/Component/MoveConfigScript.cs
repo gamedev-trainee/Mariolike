@@ -11,6 +11,6 @@ namespace Mariolike
     [DisallowMultipleComponent]
     public class MoveConfigScript : MonoBehaviour, ECSlike.IComponentConfig
     {
-        public float moveSpeed = 0;
+        public float moveSpeed = 0f;
     }
 }

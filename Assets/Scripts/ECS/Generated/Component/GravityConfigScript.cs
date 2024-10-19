@@ -11,6 +11,6 @@ namespace Mariolike
     [DisallowMultipleComponent]
     public class GravityConfigScript : MonoBehaviour, ECSlike.IComponentConfig
     {
-        public float gravity = 0;
+        public float gravity = 0f;
     }
 }

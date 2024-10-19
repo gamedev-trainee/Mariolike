@@ -6,19 +6,22 @@
 
 namespace Mariolike
 {
-    public static class HitTestGroundComponentExtensions
+    public static class HitTestComponentExtensions
     {
         public static ECSlike.IComponent Create(ECSlike.IComponentConfig config)
         {
-            HitTestGroundComponent component = new HitTestGroundComponent();
-            component.setup(config as HitTestGroundConfigScript);
+            HitTestComponent component = new HitTestComponent();
+            component.setup(config as HitTestConfigScript);
             return component;
         }
 
-        public static void setup(this HitTestGroundComponent self, HitTestGroundConfigScript config)
+        public static void setup(this HitTestComponent self, HitTestConfigScript config)
         {
+            self.collider = config.GetComponent<UnityEngine.Collider>();
             self.footRadius = config.footRadius;
+            self.stepOffset = config.stepOffset;
             self.layerMask = config.layerMask;
+            self.initComponent();
         }
     }
 }

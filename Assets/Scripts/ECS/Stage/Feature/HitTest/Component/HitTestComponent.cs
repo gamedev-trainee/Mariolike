@@ -3,16 +3,35 @@ using UnityEngine;
 
 namespace Mariolike
 {
-    public class HitTestColliderComponent : IComponent, IComponentInitializer
+    public class HitTestComponent : IComponent, IComponentInitializer
     {
         // 属性
 
         [ConfigField(init = "GetComponent<UnityEngine.Collider>()")]
         public Collider collider = null;
+        [ConfigField]
+        public float footRadius = 0f;
+        [ConfigField]
+        public float stepOffset = 0.1f;
+        [ConfigField]
+        public LayerMask layerMask = 1 << (int)GameObjectLayers.Default | 1 << (int)GameObjectLayers.Brick;
 
         //
         public float radius = 0f;
         public float height = 0f;
+
+        public HitTestFlags mHitFlags = HitTestFlags.None;
+        public HitTestFlags mLastHitFlags = HitTestFlags.None;
+
+        public bool isHitWall()
+        {
+            return (mHitFlags & HitTestFlags.HitWall) == HitTestFlags.HitWall;
+        }
+
+        public bool isHitGround()
+        {
+            return (mHitFlags & HitTestFlags.HitGround) == HitTestFlags.HitGround;
+        }
 
         // IComponentInitializer
 

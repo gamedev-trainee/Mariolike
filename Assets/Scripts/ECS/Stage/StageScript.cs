@@ -13,8 +13,7 @@ namespace Mariolike
             ECSWorld.Instance.addSystem<JumpSystem>();
             ECSWorld.Instance.addSystem<GravitySystem>();
             //
-            ECSWorld.Instance.addSystem<HitTestGroundSystem>();
-            ECSWorld.Instance.addSystem<HitTestWallSystem>();
+            ECSWorld.Instance.addSystem<HitTestSystem>();
             //
             ECSWorld.Instance.addSystem<JumpEndingSystem>();
             ECSWorld.Instance.addSystem<GravityEndingSystem>();

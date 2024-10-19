@@ -9,7 +9,7 @@ namespace Mariolike
             return new System.Type[]
             {
                 typeof(GravityComponent),
-                typeof(HitTestGroundComponent),
+                typeof(HitTestComponent),
                 typeof(PositionComponent),
             };
         }
@@ -24,8 +24,8 @@ namespace Mariolike
 
         protected override void onUpdateEntity(Entity entity)
         {
-            HitTestGroundComponent hitTestGroundComponent = entity.getComponent<HitTestGroundComponent>();
-            if (hitTestGroundComponent.mHitFlags == HitTestFlags.OnGround)
+            HitTestComponent hitTestGroundComponent = entity.getComponent<HitTestComponent>();
+            if (hitTestGroundComponent.isHitGround())
             {
                 GravityComponent gravityComponent = entity.getComponent<GravityComponent>();
                 gravityComponent.mCurGravity = 0;

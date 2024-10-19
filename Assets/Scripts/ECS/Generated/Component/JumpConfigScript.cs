@@ -11,6 +11,6 @@ namespace Mariolike
     [DisallowMultipleComponent]
     public class JumpConfigScript : MonoBehaviour, ECSlike.IComponentConfig
     {
-        public float jumpSpeed = 0;
+        public float jumpSpeed = 0f;
     }
 }

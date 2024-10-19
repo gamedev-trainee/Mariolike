@@ -4,7 +4,6 @@
     {
         None = 0,
         HitGround = 1,
-        OnGround = 2,
-        HitWall = 3,
+        HitWall = 2,
     }
 }

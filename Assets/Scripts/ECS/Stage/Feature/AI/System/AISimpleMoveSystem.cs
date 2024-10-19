@@ -36,10 +36,10 @@ namespace Mariolike
             }
             else
             {
-                HitTestWallComponent hitTestComponent = entity.getComponent<HitTestWallComponent>();
+                HitTestComponent hitTestComponent = entity.getComponent<HitTestComponent>();
                 if (hitTestComponent != null)
                 {
-                    if (hitTestComponent.mHitFlags != HitTestFlags.None)
+                    if (hitTestComponent.isHitWall())
                     {
                         moveComponent.turnAround();
                     }

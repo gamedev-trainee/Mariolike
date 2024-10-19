@@ -9,8 +9,10 @@ using UnityEngine;
 namespace Mariolike
 {
     [DisallowMultipleComponent]
-    public class HitTestColliderConfigScript : MonoBehaviour, ECSlike.IComponentConfig
+    public class HitTestConfigScript : MonoBehaviour, ECSlike.IComponentConfig
     {
-
+        public float footRadius = 0f;
+        public float stepOffset = 0.1f;
+        public UnityEngine.LayerMask layerMask = 129;
     }
 }

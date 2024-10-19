@@ -9,7 +9,7 @@ namespace Mariolike
             return new System.Type[]
             {
                 typeof(JumpComponent),
-                typeof(HitTestGroundComponent),
+                typeof(HitTestComponent),
                 typeof(PositionComponent),
             };
         }
@@ -27,8 +27,8 @@ namespace Mariolike
             JumpComponent jumpComponent = entity.getComponent<JumpComponent>();
             if (jumpComponent.mCurJumpDir != 0)
             {
-                HitTestGroundComponent hitTestGroundComponent = entity.getComponent<HitTestGroundComponent>();
-                if (hitTestGroundComponent.mHitFlags == HitTestFlags.OnGround)
+                HitTestComponent hitTestGroundComponent = entity.getComponent<HitTestComponent>();
+                if (hitTestGroundComponent.isHitGround())
                 {
                     jumpComponent.mCurJumpDir = 0;
                     AnimatorComponent animationPlayComponent = entity.getComponent<AnimatorComponent>();

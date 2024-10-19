@@ -82,9 +82,7 @@ GameObject:
   - component: {fileID: 5087200944305531342}
   - component: {fileID: 5087200944305531332}
   - component: {fileID: 5087200944305531335}
-  - component: {fileID: 5087200944305531334}
-  - component: {fileID: 5087200944305531353}
-  - component: {fileID: 5087200944305531352}
+  - component: {fileID: 2518208498932033791}
   - component: {fileID: 5087200944305531355}
   - component: {fileID: 5087200944305531354}
   m_Layer: 6
@@ -136,7 +134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff895a29f3e8e3f4784547211b43395b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: 0
 --- !u!114 &5087200944305531329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   group: 2
---- !u!114 &5087200944305531334
+--- !u!114 &2518208498932033791
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -243,37 +240,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1874293172655498502}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b06f484584a2f9e45a2fc5cd66cc7d13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5087200944305531353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874293172655498502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de5b5741be56a604eae1a9934da6d55b, type: 3}
+  m_Script: {fileID: 11500000, guid: 93670866e7daf7147bfed0e748cfff73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   footRadius: 0.3
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 129
---- !u!114 &5087200944305531352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874293172655498502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20c41432c98b94c4fa5694db4a117648, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   stepOffset: 0
   layerMask:
     serializedVersion: 2
