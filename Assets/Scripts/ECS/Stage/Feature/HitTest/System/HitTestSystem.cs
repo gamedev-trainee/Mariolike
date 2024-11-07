@@ -56,6 +56,7 @@ namespace Mariolike
                     int count = hits.Length;
                     for (int i = 0; i < count; i++)
                     {
+                        if (hits[i].distance <= 0) continue;
                         if (moveForward > 0)
                         {
                             if (hits[i].point.x < curPosition.x) continue;
@@ -120,6 +121,7 @@ namespace Mariolike
                     int count = hits.Length;
                     for (int i = 0; i < count; i++)
                     {
+                        if (hits[i].distance <= 0) continue;
                         hitY = trimValue(hits[i].point.y);
                         if (hitY > minY) continue;
                         // 选择最高的碰撞位置
