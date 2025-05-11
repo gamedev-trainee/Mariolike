@@ -61,15 +61,14 @@ namespace Mariolike
                         AnimatorComponent animatorComponent = entity.getComponent<AnimatorComponent>();
                         if (animatorComponent != null)
                         {
-                            if (animatorComponent.isStateComplete(DeathComponent.DeathStateName))
+                            if (!animatorComponent.isStateComplete(DeathComponent.DeathStateName))
                             {
-                                deathComponent.mCurDeathState = FightProgressStates.End;
+                                return;
                             }
                         }
-                        else
-                        {
-                            deathComponent.mCurDeathState = FightProgressStates.End;
-                        }
+                        deathComponent.mCurDeathState = FightProgressStates.End;
+                        EventDispatchComponent eventDispatchComponent = entity.getOrAddComponent<EventDispatchComponent>();
+                        eventDispatchComponent.sendEvent(EventTypes.Dead);
                     }
                     break;
                 case FightProgressStates.End:

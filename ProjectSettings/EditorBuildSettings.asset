@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Demo_cinemachine.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Entry.unity
+    guid: b61866aaac20162468ea40b1d099eaed
+  - enabled: 1
+    path: Assets/Scenes/Stage/Stage_0.unity
+    guid: e5903e04c0669f04aaf627267f9c1827
+  - enabled: 1
+    path: Assets/Scenes/Stage/Stage_1.unity
+    guid: 438ca59353d60f346a6300aaed53bcfe
+  - enabled: 1
+    path: Assets/Scenes/Stage/Stage_2.unity
+    guid: 4f571b43eafb6a54f8573be34db00ac1
   m_configObjects: {}

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3778091985399207999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af73afb5d7e90834ba9bee7fc7a4788e, type: 3}
+  m_Name: attr_operate
+  m_EditorClassIdentifier: 
+  operations:
+  - type: 1
+    operation: 1
+    value: 2147483647
+  - type: 3
+    operation: 1
+    value: 2147483647
+  dispatch: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ef1897a0a1cfaf429d910df704a1add, type: 3}
+  m_Name: motion_kill
+  m_EditorClassIdentifier: 
+  action: {fileID: -3778091985399207999}

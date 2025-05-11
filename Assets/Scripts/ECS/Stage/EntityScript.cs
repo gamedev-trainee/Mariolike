@@ -15,5 +15,10 @@ namespace Mariolike
                 entity = ECSWorld.Instance.createEntityBy(this);
             }
         }
+
+        private void OnDestroy()
+        {
+            ECSWorld.Instance.destroyEntity(entity);
+        }
     }
 }

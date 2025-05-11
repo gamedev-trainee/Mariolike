@@ -13,6 +13,7 @@ namespace Mariolike
     {
         void onHostInit(Entity entity);
         void onHostAttrChanged(AttrTypes type, int value);
+        void onHostDead();
         void onWorldEvent(EventTypes type);
     }
 
@@ -74,6 +75,12 @@ namespace Mariolike
             return entity;
         }
 
+        public void destroyEntity(Entity entity)
+        {
+            if (entity.isNull()) return;
+            entity.destroy();
+        }
+
         public Vector3 getUIAttrPosition(AttrTypes attrType, float z)
         {
             if (m_uiAgent != null) return m_uiAgent.getUIAttrWorldPosition(attrType, z);
@@ -114,6 +121,11 @@ namespace Mariolike
                             AttrComponent attrComponent = entity.getComponent<AttrComponent>();
                             int value = attrComponent.getAttr(attrType);
                             m_listener?.onHostAttrChanged(attrType, value);
+                        }
+                        break;
+                    case EventTypes.Dead:
+                        {
+                            m_listener?.onHostDead();
                         }
                         break;
                 }
