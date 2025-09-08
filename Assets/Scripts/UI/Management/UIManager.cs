@@ -24,7 +24,11 @@ namespace Mariolike
         public void setup(UIManagerScript script)
         {
             m_script = script;
-            m_canvasScaler = script.canvas.GetComponent<CanvasScaler>();
+            m_canvasScaler = script.canvas?.GetComponent<CanvasScaler>();
+            if (GlobalStates.IsSceneMode)
+            {
+                return;
+            }
             showEntryUI();
         }
 
@@ -76,7 +80,7 @@ namespace Mariolike
                 LoadManager.Instance.loadAssetAsync<GameObject>(address, (GameObject prefab) =>
                 {
                     GameObject go = GameObject.Instantiate(prefab);
-                    go.transform.SetParent(m_script.canvas.transform);
+                    go.transform.SetParent(m_script.canvas?.transform);
                     go.name = prefab.name;
                     go.transform.position = Vector3.zero;
                     go.transform.eulerAngles = Vector3.zero;

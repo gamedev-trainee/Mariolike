@@ -28,7 +28,30 @@ namespace Mariolike
 
         public ECSWorld() : base(new ECSWorldInitializer().getRegisterDatas())
         {
-
+            addSystem<KeyboardControlSystem>();
+            addSystem<AISimpleMoveSystem>();
+            //
+            addSystem<MoveSystem>();
+            addSystem<JumpSystem>();
+            addSystem<GravitySystem>();
+            //
+            addSystem<HitTestSystem>();
+            //
+            addSystem<JumpEndingSystem>();
+            addSystem<GravityEndingSystem>();
+            //
+            addSystem<PositionSystem>();
+            addSystem<RotationSystem>();
+            //
+            addSystem<AttackSystem>();
+            addSystem<BeattackSystem>();
+            addSystem<DeathSystem>();
+            //
+            addSystem<MotionPlaySystem>();
+            //
+            addSystem<EventDispatchSystem>();
+            //
+            addSystem<DisposeSystem>();
         }
 
         public void setUIAgent(IECSWorldUIAgent value)

@@ -38,6 +38,15 @@ namespace Mariolike
         public void setup(GameManagerScript script)
         {
             m_script = script;
+            if (GlobalStates.IsSceneMode)
+            {
+                startGameInSceneMode();
+            }
+        }
+
+        public bool hasScript()
+        {
+            return m_script;
         }
 
         public void update()
@@ -81,6 +90,7 @@ namespace Mariolike
         public void registerStage(StageScript stageScript)
         {
             m_stageScript = stageScript;
+            createStage(m_stageScript);
             createHost(m_stageScript);
         }
 
@@ -134,6 +144,12 @@ namespace Mariolike
             m_stage = 1;
             m_hostData = createHostData();
             onStartGame();
+        }
+
+        public void startGameInSceneMode()
+        {
+            m_stage = 1;
+            m_hostData = createHostData();
         }
 
         protected void onStartGame()
@@ -272,7 +288,7 @@ namespace Mariolike
                 inst.transform.localScale = Vector3.one;
                 if (stageScript.born != null)
                 {
-                    inst.transform.position = stageScript.born.position;
+                    inst.transform.position = stageScript.born;
                 }
                 if (stageScript.cameraScript != null)
                 {
@@ -289,6 +305,25 @@ namespace Mariolike
             {
                 deathComponent.startDeath(Entity.Null);
             }
+        }
+
+        protected void createStage(StageScript stageScript)
+        {
+            if (stageScript == null) return;
+            createDeathHole(stageScript);
+        }
+
+        protected void createDeathHole(StageScript stageScript)
+        {
+            if (stageScript == null) return;
+            LoadManager.Instance.loadAssetAsync<GameObject>(m_script.deathHoleResource, (GameObject go) =>
+            {
+                GameObject inst = GameObject.Instantiate(go);
+                inst.name = "__death_hole__";
+                inst.transform.position = new Vector3(0f, -stageScript.cellSize * (stageScript.row / 2 + 1), 0f);
+                inst.transform.eulerAngles = Vector3.zero;
+                inst.transform.localScale = new Vector3(stageScript.cellSize * (stageScript.column + 2), 1f, 1f);
+            });
         }
 
         // IECSWorldEventListener

@@ -6,6 +6,7 @@ namespace Mariolike
     {
         public WorldSettings world = null;
         public string playerResource = string.Empty;
+        public string deathHoleResource = string.Empty;
         public string stageResourceFormat = string.Empty;
         public int maxStage = 0;
 
