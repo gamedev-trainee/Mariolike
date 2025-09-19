@@ -246,7 +246,6 @@ namespace Mariolike
         {
             if (m_editing) return;
             m_editing = true;
-            EditorUtils.UnlockSceneViewRotation();
             EditorUtils.SetSceneViewToOrthoBackView();
             EditorUtils.LockSceneViewRotation();
             SceneView.lastActiveSceneView.LookAt(m_target.transform.position);
