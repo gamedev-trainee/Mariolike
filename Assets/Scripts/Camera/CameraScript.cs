@@ -9,28 +9,32 @@ namespace Mariolike
         public Vector3 followOffset = Vector3.zero;
         public BoxCollider followRect = null;
 
+        private Vector3 m_lastFollowPosition = Vector3.zero;
+
         void LateUpdate()
         {
             if (followTarget == null)
             {
                 return;
             }
-
+            Vector3 followPosition = followTarget.position;
             if (followRect != null)
             {
-                if (!followRect.bounds.Contains(followTarget.position))
+                followPosition = followRect.bounds.ClosestPoint(followPosition);
+                if (followPosition.Equals(m_lastFollowPosition))
                 {
                     return;
                 }
             }
-            updateFollow(followTarget.position);
+            m_lastFollowPosition = followPosition;
+            updateFollow(followPosition);
         }
 
         private void OnDrawGizmos()
         {
             if (followRect == null) return;
             Color color = Gizmos.color;
-            Gizmos.color = Color.green;
+            Gizmos.color = Color.cyan;
             Gizmos.DrawWireCube(followRect.transform.position + followRect.center, new Vector3(
                 followRect.transform.localScale.x * followRect.size.x,
                 followRect.transform.localScale.y * followRect.size.y,

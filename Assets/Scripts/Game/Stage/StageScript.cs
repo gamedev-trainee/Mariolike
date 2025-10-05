@@ -27,6 +27,9 @@ namespace Mariolike
 #if UNITY_EDITOR
 
         private Transform m_bornPreview = null;
+        private float m_lastCellSize = 0f;
+        private int m_lastColumn = 0;
+        private int m_lastRow = 0;
         private Vector4 m_lastCameraRectPadding = Vector4.zero;
 
         private void Awake()
@@ -145,7 +148,16 @@ namespace Mariolike
         {
             if (cameraScript == null) return;
             if (cameraScript.followRect == null) return;
-            if (m_lastCameraRectPadding.Equals(cameraRectPadding)) return;
+            if (m_lastCellSize == cellSize
+             && m_lastColumn == column
+             && m_lastRow == row
+             && m_lastCameraRectPadding.Equals(cameraRectPadding))
+            {
+                return;
+            }
+            m_lastCellSize = cellSize;
+            m_lastColumn = column;
+            m_lastRow = row;
             m_lastCameraRectPadding = cameraRectPadding;
             float xOffset = cameraRectPadding.x - cameraRectPadding.z;
             float yOffset = cameraRectPadding.y - cameraRectPadding.w;
