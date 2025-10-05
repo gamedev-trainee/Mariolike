@@ -23,19 +23,35 @@ namespace Mariolike
                     return;
                 }
             }
+            updateFollow(followTarget.position);
+        }
 
+        private void OnDrawGizmos()
+        {
+            if (followRect == null) return;
+            Color color = Gizmos.color;
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(followRect.transform.position + followRect.center, new Vector3(
+                followRect.transform.localScale.x * followRect.size.x,
+                followRect.transform.localScale.y * followRect.size.y,
+                followRect.transform.localScale.z * followRect.size.z));
+            Gizmos.color = color;
+        }
+
+        public void updateFollow(Vector3 position)
+        {
             Vector3 pos;
             float cameraAngle = transform.eulerAngles.x;
             if (cameraAngle == 0f)
             {
-                pos = followTarget.position + new Vector3(0f, 0f, -followDistance);
+                pos = position + new Vector3(0f, 0f, -followDistance);
             }
             else
             {
                 float cameraAngleR = Mathf.Deg2Rad * cameraAngle;
                 float followZ = Mathf.Acos(cameraAngleR) * followDistance;
                 float followY = Mathf.Asin(cameraAngleR) * followDistance;
-                pos = followTarget.position + new Vector3(0f, followY, -followZ);
+                pos = position + new Vector3(0f, followY, -followZ);
             }
             pos += followOffset;
             transform.position = pos;

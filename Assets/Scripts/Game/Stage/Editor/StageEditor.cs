@@ -8,6 +8,21 @@ namespace Mariolike
     [CustomEditor(typeof(StageScript))]
     public class StageEditor : Editor
     {
+        [MenuItem("GameObject/Mariolike/Create Stage")]
+        static void Create()
+        {
+            StageScript stageScript = GameObject.FindAnyObjectByType<StageScript>();
+            if (stageScript != null)
+            {
+                Selection.activeGameObject = stageScript.gameObject;
+            }
+            else
+            {
+                GameObject go = new GameObject("__stage__");
+                go.AddComponent<StageScript>();
+            }
+        }
+
         public enum EditTypes
         {
             Paint,
@@ -68,6 +83,12 @@ namespace Mariolike
         private GenericMenu m_rightMenu = null;
         private CellData m_rightSelectedCellData = null;
 
+        private SerializedProperty m_cameraProperty = null;
+        private SerializedProperty m_cameraRectPaddingProperty = null;
+        private SerializedObject m_cameraPropertyObject = null;
+        private SerializedProperty m_cameraFollowDistanceProperty = null;
+        private SerializedProperty m_cameraFollowOffsetProperty = null;
+
         private void OnEnable()
         {
             m_target = target as StageScript;
@@ -82,6 +103,7 @@ namespace Mariolike
 
             initResourcePool();
             initRightMenu();
+            initCamera();
         }
 
         private void OnDisable()
@@ -204,6 +226,8 @@ namespace Mariolike
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+
+            drawCamera();
 
             EditorGUILayout.Space();
 
@@ -568,6 +592,61 @@ namespace Mariolike
             Handles.color = Color.red;
             Handles.DrawSolidDisc(born, Vector3.back, 0.2f);
             Handles.color = color;
+        }
+
+        private void initCamera()
+        {
+            m_cameraProperty = serializedObject.FindProperty("cameraScript");
+            m_cameraRectPaddingProperty = serializedObject.FindProperty("cameraRectPadding");
+            if (m_cameraProperty.objectReferenceValue != null)
+            {
+                m_cameraPropertyObject = new SerializedObject(m_cameraProperty.objectReferenceValue);
+                m_cameraFollowDistanceProperty = m_cameraPropertyObject.FindProperty("followDistance");
+                m_cameraFollowOffsetProperty = m_cameraPropertyObject.FindProperty("followOffset");
+            }
+        }
+
+        private void drawCamera()
+        {
+            EditorGUI.BeginChangeCheck();
+            {
+                EditorGUILayout.PropertyField(m_cameraProperty);
+            }
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedObject.ApplyModifiedProperties();
+                if (m_cameraProperty.objectReferenceValue != null)
+                {
+                    m_cameraPropertyObject = new SerializedObject(m_cameraProperty.objectReferenceValue);
+                    m_cameraFollowDistanceProperty = m_cameraPropertyObject.FindProperty("followDistance");
+                    m_cameraFollowOffsetProperty = m_cameraPropertyObject.FindProperty("followOffset");
+                }
+                else
+                {
+                    m_cameraPropertyObject = null;
+                }
+            }
+            EditorGUI.BeginChangeCheck();
+            {
+                EditorGUILayout.PropertyField(m_cameraRectPaddingProperty);
+            }
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedObject.ApplyModifiedProperties();
+            }
+            if (m_cameraPropertyObject == null)
+            {
+                return;
+            }
+            EditorGUI.BeginChangeCheck();
+            {
+                EditorGUILayout.PropertyField(m_cameraFollowDistanceProperty);
+                EditorGUILayout.PropertyField(m_cameraFollowOffsetProperty);
+            }
+            if (EditorGUI.EndChangeCheck())
+            {
+                m_cameraPropertyObject.ApplyModifiedProperties();
+            }
         }
     }
 }
